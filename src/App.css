@@ -92,6 +92,7 @@ a:hover {
 .desc {
   flex: 1;
   background-color: none;
+  text-transform: capitalize;
 }
 
 .even-temp {
