@@ -1,22 +1,24 @@
 import logo from './logo.svg';
 import React, {useEffect, useState} from "react";
 import './App.css';
+import DailyRow from "./components/DailyRow";
+import CurrentDisplay from './components/CurrentDisplay';
 
 
 
 const App = () => {
 
-  const APP_KEY = 'a7ff38ee1c49b77064c72f94875dcc9e';
   // positive coords are N/E, negative are S/W
   const long = '51.5074';
   const lat = '-0.1278';
-  const exampleReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=metric&appid=${APP_KEY}`;
+  const exampleReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=metric&appid=${process.env.REACT_APP_API_KEY}`;
 
-  // stores the current information. Temperatures are given in Kelvin, so must be converted to Celsius
   const [currentInfo, setCurrent] = useState([]);
   const [currentDesc, setDesc] = useState([]);
-  const [dailyInfo, setDaily] = useState([]);
-  //const nextDay = new Date();
+  const [dailyTime, setDailyTime] = useState([]);
+  const [dailyDesc, setDailyDesc] = useState([]);
+  const [dailyMax, setDailyMax] = useState([]);
+  const [dailyMin, setDailyMin] = useState([]);
 
   // triggered on page load, will be set up to refresh when new location is added
   useEffect(() => {
@@ -34,10 +36,9 @@ const App = () => {
   };
 
   function dateString(dt){
-    // x1000 to convert form unix time to milliseconds
-    const dayArray = ['Sun', 'Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat'];
+    const dayArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
     const monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
+    // x1000 to convert form unix time to milliseconds
     const dateTime = new Date(dt*1000);
     const dayIndex = dateTime.getDay();
     const dateVal = nth(dateTime.getDate());
@@ -51,68 +52,28 @@ const App = () => {
     const data = await response.json();
     setCurrent(data.current);
     setDesc(data.current.weather[0].description);
-    setDaily( data.daily.map(x => dateString(x.dt)) );
+    setDailyTime( data.daily.map(x => dateString(x.dt)) );        // messy fix to prevent React throwing object assignment errors
+    setDailyDesc( data.daily.map(x => x.weather[0].description) );
+    setDailyMax( data.daily.map(x => Math.round(x.temp.max)) );
+    setDailyMin( data.daily.map(x => Math.round(x.temp.min)) );
     console.log(data);
-    console.log(dailyInfo);
   };
 
-  // can and should make a more elegant way of returning all the daily information
   return(
     <div className="container">
-      <h1 className="temp-today">{Math.round(currentInfo.temp)}&#8451;</h1>
-      <p className="desc-today">{currentDesc}</p>
-      <div className="location">
-        <img src="location-icon.svg" alt="location-icon"/>
-        <p className="city">London, UK</p>
-        <a href="#">Change Location</a>
-      </div>
+        <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} />
       <p className="subtitle">next 7 days</p>
       <div className="forecast">
-        <div className="forecast-row">
-          <p className="date">{dailyInfo[1]}</p>
-          <p className="desc">Cloudy</p>
-          <p className="morn-temp">1&#8451;</p>
-          <p className="even-temp">-2&#8451;</p>
-        </div>
-        <div className="forecast-row">
-          <p className="date">{dailyInfo[2]}</p>
-          <p className="desc">Cloudy</p>
-          <p className="morn-temp">1&#8451;</p>
-          <p className="even-temp">-2&#8451;</p>
-        </div>
-        <div className="forecast-row">
-          <p className="date">{dailyInfo[3]}</p>
-          <p className="desc">Cloudy</p>
-          <p className="morn-temp">1&#8451;</p>
-          <p className="even-temp">-2&#8451;</p>
-        </div>
-        <div className="forecast-row">
-          <p className="date">{dailyInfo[4]}</p>
-          <p className="desc">Cloudy</p>
-          <p className="morn-temp">1&#8451;</p>
-          <p className="even-temp">-2&#8451;</p>
-        </div>
-        <div className="forecast-row">
-          <p className="date">{dailyInfo[5]}</p>
-          <p className="desc">Cloudy</p>
-          <p className="morn-temp">1&#8451;</p>
-          <p className="even-temp">-2&#8451;</p>
-        </div>
-        <div className="forecast-row">
-          <p className="date">{dailyInfo[6]}</p>
-          <p className="desc">Cloudy</p>
-          <p className="morn-temp">1&#8451;</p>
-          <p className="even-temp">-2&#8451;</p>
-        </div>
-        <div className="forecast-row">
-          <p className="date">{dailyInfo[7]}</p>
-          <p className="desc">Cloudy</p>
-          <p className="morn-temp">1&#8451;</p>
-          <p className="even-temp">-2&#8451;</p>
-        </div>
+        <DailyRow time = {dailyTime[1]} desc = {dailyDesc[1]} max = {dailyMax[1]} min = {dailyMin[1]}/>
+        <DailyRow time = {dailyTime[2]} desc = {dailyDesc[2]} max = {dailyMax[2]} min = {dailyMin[2]}/>
+        <DailyRow time = {dailyTime[3]} desc = {dailyDesc[3]} max = {dailyMax[3]} min = {dailyMin[3]}/>
+        <DailyRow time = {dailyTime[4]} desc = {dailyDesc[4]} max = {dailyMax[4]} min = {dailyMin[4]}/>
+        <DailyRow time = {dailyTime[5]} desc = {dailyDesc[5]} max = {dailyMax[5]} min = {dailyMin[5]}/>
+        <DailyRow time = {dailyTime[6]} desc = {dailyDesc[6]} max = {dailyMax[6]} min = {dailyMin[6]}/>
+        <DailyRow time = {dailyTime[7]} desc = {dailyDesc[7]} max = {dailyMax[7]} min = {dailyMin[7]}/>
       </div>
     </div>
   );
-}
+};
 
 export default App;
