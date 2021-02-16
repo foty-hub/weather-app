@@ -11,7 +11,10 @@ const App = () => {
   // positive coords are N/E, negative are S/W
   const long = '51.5074';
   const lat = '-0.1278';
-  const exampleReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=metric&appid=${process.env.REACT_APP_API_KEY}`;
+  const locationSearch = "London, UK";
+  // stopped obfuscating API keys, was causing collaboration issues, hopefully can be added back in later
+  const weatherReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=metric&appid=a7ff38ee1c49b77064c72f94875dcc9e`;
+  const locationReq = `https://www.mapquestapi.com/geocoding/v1/address?key=EBmXLZiX0GnVaGRDAIsX4GzsZAnWfaNU&inFormat=kvp&outFormat=json&location=${locationSearch}%2C+CO&thumbMaps=false&maxResults=1`;
 
   const [currentInfo, setCurrent] = useState([]);
   const [currentDesc, setDesc] = useState([]);
@@ -22,10 +25,11 @@ const App = () => {
 
   // triggered on page load, will be set up to refresh when new location is added
   useEffect(() => {
-    fetchData();
+    //fetchLocation();
+    makeRequests(locationSearch);
   }, []);
 
-  function nth(d) {
+  const nth = (d) => {
     if (d > 3 && d < 21){return d+'th'};
     switch (d % 10){
       case 1: return d+'st';
@@ -35,7 +39,7 @@ const App = () => {
     };
   };
 
-  function dateString(dt){
+  const dateString = (dt) => {
     const dayArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
     const monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     // x1000 to convert form unix time to milliseconds
@@ -47,15 +51,32 @@ const App = () => {
   }
 
   // fetches and logs the data, updates the current info
-  const fetchData = async () => {
-    const response = await fetch(exampleReq);
-    const data = await response.json();
+  const makeRequests = async (locationString) => {
+    // make the location API call first, to find longitude and latitude of the given location string
+    const locationReq = `https://www.mapquestapi.com/geocoding/v1/address?key=EBmXLZiX0GnVaGRDAIsX4GzsZAnWfaNU&inFormat=kvp&outFormat=json&location=${locationString}%2C+CO&thumbMaps=false&maxResults=1`;
+    const locResponse = await fetch(locationReq);
+    const locData = await locResponse.json();
+    const lat = locData.results[0].locations[0].latLng.lat;
+    const lng = locData.results[0].locations[0].latLng.lng;
+    
+    // use longitude and latitude to build a 2nd API call to the weather API
+    const weatherReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=metric&appid=a7ff38ee1c49b77064c72f94875dcc9e`;
+    const weatherResponse = await fetch(weatherReq);
+    const data = await weatherResponse.json();
     setCurrent(data.current);
     setDesc(data.current.weather[0].description);
     setDailyTime( data.daily.map(x => dateString(x.dt)) );        // messy fix to prevent React throwing object assignment errors
     setDailyDesc( data.daily.map(x => x.weather[0].description) );
     setDailyMax( data.daily.map(x => Math.round(x.temp.max)) );
     setDailyMin( data.daily.map(x => Math.round(x.temp.min)) );
+    console.log(data);
+  };
+
+  const fetchLocation = async (locationString) => {
+    const response = await fetch(locationReq);
+    const data = await response.json();
+    const latitude = data.results[0].locations[0].latLng.lat;
+    const longitude = data.results[0].locations[0].latLng.lng;
     console.log(data);
   };
 
