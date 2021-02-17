@@ -1,11 +1,11 @@
 import React from 'react';
 
-const DailyRow = (e) => (
+const DailyRow = (props) => (
   <div className="forecast-row">
-    <p className="date">{e.time}</p>
-    <p className="desc">{e.desc}</p>
-    <p className="morn-temp">{e.max}&#8451;</p>
-    <p className="even-temp">{e.min}&#8451;</p>
+    <p className="date">{props.time}</p>
+    <p className="desc">{props.desc}</p>
+    <p className="morn-temp">{props.max}&#8451;</p>
+    <p className="even-temp">{props.min}&#8451;</p>
   </div>
 );
 

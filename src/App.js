@@ -4,14 +4,12 @@ import './App.css';
 import DailyRow from "./components/DailyRow";
 import CurrentDisplay from './components/CurrentDisplay';
 
-
-
 const App = () => {
 
   // positive coords are N/E, negative are S/W
   const long = '51.5074';
   const lat = '-0.1278';
-  const locationSearch = "London, UK";
+  const locationSearch = "london, uk";
   // stopped obfuscating API keys, was causing collaboration issues, hopefully can be added back in later
   const weatherReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=metric&appid=a7ff38ee1c49b77064c72f94875dcc9e`;
   const locationReq = `https://www.mapquestapi.com/geocoding/v1/address?key=EBmXLZiX0GnVaGRDAIsX4GzsZAnWfaNU&inFormat=kvp&outFormat=json&location=${locationSearch}%2C+CO&thumbMaps=false&maxResults=1`;
@@ -22,12 +20,24 @@ const App = () => {
   const [dailyDesc, setDailyDesc] = useState([]);
   const [dailyMax, setDailyMax] = useState([]);
   const [dailyMin, setDailyMin] = useState([]);
+  const [inputValue, setInputValue] = useState();
+  const [searchValue, setSearchValue] = useState(locationSearch);
+  const [locationDisplay, setLocationDisplay] = useState();
 
   // triggered on page load, will be set up to refresh when new location is added
   useEffect(() => {
     //fetchLocation();
-    makeRequests(locationSearch);
-  }, []);
+    makeRequests(searchValue);
+  }, [searchValue]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setSearchValue(inputValue);
+  };
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  }
 
   const nth = (d) => {
     if (d > 3 && d < 21){return d+'th'};
@@ -58,6 +68,8 @@ const App = () => {
     const locData = await locResponse.json();
     const lat = locData.results[0].locations[0].latLng.lat;
     const lng = locData.results[0].locations[0].latLng.lng;
+    console.log(locData);
+    setLocationDisplay(`${locData.results[0].locations[0].adminArea5}, ${locData.results[0].locations[0].adminArea1}`);
     
     // use longitude and latitude to build a 2nd API call to the weather API
     const weatherReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=metric&appid=a7ff38ee1c49b77064c72f94875dcc9e`;
@@ -72,17 +84,9 @@ const App = () => {
     console.log(data);
   };
 
-  const fetchLocation = async (locationString) => {
-    const response = await fetch(locationReq);
-    const data = await response.json();
-    const latitude = data.results[0].locations[0].latLng.lat;
-    const longitude = data.results[0].locations[0].latLng.lng;
-    console.log(data);
-  };
-
   return(
     <div className="container">
-        <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} />
+        <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} onSubmit = {handleSubmit} onChange = {handleChange} location = {locationDisplay}/>
       <p className="subtitle">next 7 days</p>
       <div className="forecast">
         <DailyRow time = {dailyTime[1]} desc = {dailyDesc[1]} max = {dailyMax[1]} min = {dailyMin[1]}/>
