@@ -9,20 +9,16 @@ const App = () => {
   // positive coords are N/E, negative are S/W
   const long = '51.5074';
   const lat = '-0.1278';
-<<<<<<< Updated upstream
   let locationSearch = "";
 
   if (localStorage.getItem("Location")){
     locationSearch = localStorage.getItem("Location");
+    console.log(locationSearch);
    }
    else {
      locationSearch = "london, uk"; // default fallback value if nothing is locally stored
    }
   
-=======
-  const exampleReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=metric&appid=a7ff38ee1c49b77064c72f94875dcc9e`;
-
->>>>>>> Stashed changes
   const [currentInfo, setCurrent] = useState([]);
   const [currentDesc, setDesc] = useState([]);
   const [dailyTime, setDailyTime] = useState([]);
@@ -35,6 +31,7 @@ const App = () => {
 
   // Triggered on page load, retriggers when the search is submitted
   useEffect(() => {
+    console.log(searchValue);
     makeRequests(searchValue);
 
   }, [searchValue]);
@@ -75,6 +72,7 @@ const App = () => {
 
   // Fetches and handles openweathermap API call, updating hooks
   const fetchWeather = async (lat, lng) => {
+    console.log("Sending weather API request");
     const weatherReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=metric&appid=a7ff38ee1c49b77064c72f94875dcc9e`;
     const weatherResponse = await fetch(weatherReq);
     const data = await weatherResponse.json();
@@ -91,6 +89,7 @@ const App = () => {
   const makeRequests = async (locationString) => {
     const locReq = `https://maps.googleapis.com/maps/api/geocode/json?address=${locationString}&key=AIzaSyCMCT2J6HObmXkBZiD-gMAdmucOoTXEn_U`;
     const locResponse = await fetch(locReq);
+    console.log("Sending location API request");
     const locData = await locResponse.json();
     let lat = "";
     let lng = "";
@@ -124,24 +123,15 @@ const App = () => {
   };
 
   return(
-<<<<<<< Updated upstream
-    <div className="container">
-        <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} onSubmit = {handleSubmit} onChange = {handleChange} location = {locationDisplay}/>
-=======
-  
-
 
   <div className="container">
     <div className="londonimage" > 
     <img src="Users/C.LUKY/weather app/weather-app/img/Londonimage.jpg" alt="londonimage"></img>  
     </div>
-    <div className="todaysforecast">        
-      
-      <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} /> 
->>>>>>> Stashed changes
+    <div className="todaysforecast">          
+      <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} location={locationDisplay} onSubmit={handleSubmit} onChange={handleChange}/> 
       <p className="subtitle">next 7 days</p>
     </div>
-
     <div className="forecast">
         <DailyRow time = {dailyTime[1]} desc = {dailyDesc[1]} max = {dailyMax[1]} min = {dailyMin[1]}/>
         <DailyRow time = {dailyTime[2]} desc = {dailyDesc[2]} max = {dailyMax[2]} min = {dailyMin[2]}/>
