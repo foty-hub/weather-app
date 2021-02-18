@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import React, {useEffect, useState} from "react";
+import React, {Component, useEffect, useState} from "react";
 import './App.css';
 import DailyRow from "./components/DailyRow";
 import CurrentDisplay from './components/CurrentDisplay';
@@ -10,12 +10,13 @@ const App = () => {
   const long = '51.5074';
   const lat = '-0.1278';
   let locationSearch = "";
+
   if (localStorage.getItem("Location")){
-   locationSearch = localStorage.getItem("Location");
-  }
-  else {
-    locationSearch = "london, uk"; // default fallback value if nothing is locally stored
-  }
+    locationSearch = localStorage.getItem("Location");
+   }
+   else {
+     locationSearch = "london, uk"; // default fallback value if nothing is locally stored
+   }
   
   const [currentInfo, setCurrent] = useState([]);
   const [currentDesc, setDesc] = useState([]);
@@ -27,10 +28,10 @@ const App = () => {
   const [searchValue, setSearchValue] = useState(locationSearch);
   const [locationDisplay, setLocationDisplay] = useState();
 
-  // Triggered on page load, will be set up to refresh when new location is added
+  // Triggered on page load, retriggers when the search is submitted
   useEffect(() => {
     makeRequests(searchValue);
-    localStorage.setItem("Location", searchValue);
+
   }, [searchValue]);
 
   // Handles text submission and triggers useEffect, making the API calls
@@ -90,10 +91,14 @@ const App = () => {
     let lng = "";
 
     switch(locData.status){
+
+      // Handles callback status
       case "OK":
         lat = locData.results[0].geometry.location.lat;
         lng = locData.results[0].geometry.location.lng;
         setLocationDisplay(locData.results[0].formatted_address);
+        localStorage.setItem("Location", searchValue);
+        console.log("saving: " + searchValue);
         fetchWeather(lat, lng);
         break;
       case "ZERO_RESULTS":
