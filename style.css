@@ -1,0 +1,157 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue";
+  color: white;}
+
+
+.container {
+  background-color: rgb(93,17,104,1);
+  border-radius: 0px;
+  width: 580px;   /* changed the width from 50vw */
+  margin: 50px auto;
+  padding-top: 40px;
+  text-align: center;
+}
+
+h1 {
+
+  font-size: 98px;
+  font-weight: 300;
+}
+
+.desc-today {
+  margin: 0 0 30px 0;
+  text-transform: capitalize;
+}
+
+.subtitle {
+
+  margin: 30px 0 5px 0;
+  text-align: left;
+  padding-left: 10px;
+  text-transform: capitalize;
+}
+
+.location {
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  background-color: none;
+
+}
+
+.location a {
+  margin-left: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(223, 223, 223);
+}
+
+a:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+.todaysforecast{
+  background-color: rgb(255, 255, 255);
+  color: black;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.forecast {
+  background-color: azure;
+  color: black;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.forecast-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid rgb(128, 130, 209);
+  background-color: none;
+  margin: 0px;
+}
+.forecast-row:hover {
+  color:white;
+  background:#DFCFE1;
+}
+
+.date,
+.desc,
+.morn-temp,
+.even-temp {
+  padding: 0 5px;
+}
+
+.date {
+  width: 40%;
+  text-transform: capitalize;
+}
+
+.desc {
+  flex: 1;
+  background-color: none;
+  text-transform: capitalize;
+}
+
+.even-temp {
+  opacity: 50%;
+  font-size: 75%;
+  background-color: none;
+}
+
+.image{
+  width: 580px;
+  height: 300px;
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 601px) and (max-width: 1000px) {
+  body {
+    background-color: none;
+  }
+  .container {
+    margin: 20px auto;
+    width: 80%;
+  }
+  .date {
+    width: 50%;
+  }
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 600px) {
+  body {
+    background-color: none;
+  }
+  .container {
+    margin: 10px auto;
+    width: 95%;
+    height: 95%;
+    padding: 20px;
+  }
+  .date {
+    width: 50%;
+  }
+}
+
+  
+  
