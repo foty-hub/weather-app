@@ -9,6 +9,7 @@ const App = () => {
   // positive coords are N/E, negative are S/W
   const long = '51.5074';
   const lat = '-0.1278';
+<<<<<<< Updated upstream
   let locationSearch = "";
 
   if (localStorage.getItem("Location")){
@@ -18,6 +19,10 @@ const App = () => {
      locationSearch = "london, uk"; // default fallback value if nothing is locally stored
    }
   
+=======
+  const exampleReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=metric&appid=a7ff38ee1c49b77064c72f94875dcc9e`;
+
+>>>>>>> Stashed changes
   const [currentInfo, setCurrent] = useState([]);
   const [currentDesc, setDesc] = useState([]);
   const [dailyTime, setDailyTime] = useState([]);
@@ -119,10 +124,25 @@ const App = () => {
   };
 
   return(
+<<<<<<< Updated upstream
     <div className="container">
         <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} onSubmit = {handleSubmit} onChange = {handleChange} location = {locationDisplay}/>
+=======
+  
+
+
+  <div className="container">
+    <div className="londonimage" > 
+    <img src="Users/C.LUKY/weather app/weather-app/img/Londonimage.jpg" alt="londonimage"></img>  
+    </div>
+    <div className="todaysforecast">        
+      
+      <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} /> 
+>>>>>>> Stashed changes
       <p className="subtitle">next 7 days</p>
-      <div className="forecast">
+    </div>
+
+    <div className="forecast">
         <DailyRow time = {dailyTime[1]} desc = {dailyDesc[1]} max = {dailyMax[1]} min = {dailyMin[1]}/>
         <DailyRow time = {dailyTime[2]} desc = {dailyDesc[2]} max = {dailyMax[2]} min = {dailyMin[2]}/>
         <DailyRow time = {dailyTime[3]} desc = {dailyDesc[3]} max = {dailyMax[3]} min = {dailyMin[3]}/>
@@ -130,9 +150,13 @@ const App = () => {
         <DailyRow time = {dailyTime[5]} desc = {dailyDesc[5]} max = {dailyMax[5]} min = {dailyMin[5]}/>
         <DailyRow time = {dailyTime[6]} desc = {dailyDesc[6]} max = {dailyMax[6]} min = {dailyMin[6]}/>
         <DailyRow time = {dailyTime[7]} desc = {dailyDesc[7]} max = {dailyMax[7]} min = {dailyMin[7]}/>
-      </div>
     </div>
+  </div>
+
+  
   );
+
+  // 
 };
 
 export default App;
