@@ -3,6 +3,7 @@ import React, {Component, useEffect, useState} from "react";
 import './App.css';
 import DailyRow from "./components/DailyRow";
 import CurrentDisplay from './components/CurrentDisplay';
+import image from './london-gradient.png';
 
 const App = () => {
 
@@ -126,7 +127,7 @@ const App = () => {
 
   <div className="container">
     <div className="londonimage" > 
-    <img src="Users/C.LUKY/weather app/weather-app/img/Londonimage.jpg" alt="londonimage"></img>  
+    <img src={image} alt="london-image"/>
     </div>
     <div className="todaysforecast">          
       <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} location={locationDisplay} onSubmit={handleSubmit} onChange={handleChange}/> 
