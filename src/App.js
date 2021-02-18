@@ -13,7 +13,6 @@ const App = () => {
 
   if (localStorage.getItem("Location")){
     locationSearch = localStorage.getItem("Location");
-    console.log(locationSearch);
    }
    else {
      locationSearch = "london, uk"; // default fallback value if nothing is locally stored
@@ -28,12 +27,12 @@ const App = () => {
   const [inputValue, setInputValue] = useState();
   const [searchValue, setSearchValue] = useState(locationSearch);
   const [locationDisplay, setLocationDisplay] = useState();
+  const [currentIcon, setCurrentIcon] = useState();
+  const [dailyIcons, setDailyIcons] = useState([]);
 
   // Triggered on page load, retriggers when the search is submitted
   useEffect(() => {
-    console.log(searchValue);
     makeRequests(searchValue);
-
   }, [searchValue]);
 
   // Handles text submission and triggers useEffect, making the API calls
@@ -70,14 +69,19 @@ const App = () => {
     return `${dayArray[dayIndex]} ${dateVal} ${monthArray[month]}`;
   }
 
+  const logoSelect = () => {
+
+  };
+
   // Fetches and handles openweathermap API call, updating hooks
   const fetchWeather = async (lat, lng) => {
-    console.log("Sending weather API request");
     const weatherReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=metric&appid=a7ff38ee1c49b77064c72f94875dcc9e`;
     const weatherResponse = await fetch(weatherReq);
     const data = await weatherResponse.json();
     setCurrent(data.current);
     setDesc(data.current.weather[0].description);
+    setCurrentIcon(data.current.weather[0].icon);
+    setDailyIcons( data.daily.map(x => x.weather[0].icon) );
     setDailyTime( data.daily.map(x => dateString(x.dt)) );        // messy fix to prevent React throwing object assignment errors
     setDailyDesc( data.daily.map(x => x.weather[0].description) );
     setDailyMax( data.daily.map(x => Math.round(x.temp.max)) );
@@ -89,7 +93,6 @@ const App = () => {
   const makeRequests = async (locationString) => {
     const locReq = `https://maps.googleapis.com/maps/api/geocode/json?address=${locationString}&key=AIzaSyCMCT2J6HObmXkBZiD-gMAdmucOoTXEn_U`;
     const locResponse = await fetch(locReq);
-    console.log("Sending location API request");
     const locData = await locResponse.json();
     let lat = "";
     let lng = "";
@@ -102,7 +105,6 @@ const App = () => {
         lng = locData.results[0].geometry.location.lng;
         setLocationDisplay(locData.results[0].formatted_address);
         localStorage.setItem("Location", searchValue);
-        console.log("saving: " + searchValue);
         fetchWeather(lat, lng);
         break;
       case "ZERO_RESULTS":
@@ -133,20 +135,16 @@ const App = () => {
       <p className="subtitle">next 7 days</p>
     </div>
     <div className="forecast">
-        <DailyRow time = {dailyTime[1]} desc = {dailyDesc[1]} max = {dailyMax[1]} min = {dailyMin[1]}/>
-        <DailyRow time = {dailyTime[2]} desc = {dailyDesc[2]} max = {dailyMax[2]} min = {dailyMin[2]}/>
-        <DailyRow time = {dailyTime[3]} desc = {dailyDesc[3]} max = {dailyMax[3]} min = {dailyMin[3]}/>
-        <DailyRow time = {dailyTime[4]} desc = {dailyDesc[4]} max = {dailyMax[4]} min = {dailyMin[4]}/>
-        <DailyRow time = {dailyTime[5]} desc = {dailyDesc[5]} max = {dailyMax[5]} min = {dailyMin[5]}/>
-        <DailyRow time = {dailyTime[6]} desc = {dailyDesc[6]} max = {dailyMax[6]} min = {dailyMin[6]}/>
-        <DailyRow time = {dailyTime[7]} desc = {dailyDesc[7]} max = {dailyMax[7]} min = {dailyMin[7]}/>
+        <DailyRow time = {dailyTime[1]} desc = {dailyDesc[1]} max = {dailyMax[1]} min = {dailyMin[1]} icon = {dailyIcons[1]}/>
+        <DailyRow time = {dailyTime[2]} desc = {dailyDesc[2]} max = {dailyMax[2]} min = {dailyMin[2]} icon = {dailyIcons[2]}/>
+        <DailyRow time = {dailyTime[3]} desc = {dailyDesc[3]} max = {dailyMax[3]} min = {dailyMin[3]} icon = {dailyIcons[3]}/>
+        <DailyRow time = {dailyTime[4]} desc = {dailyDesc[4]} max = {dailyMax[4]} min = {dailyMin[4]} icon = {dailyIcons[4]}/>
+        <DailyRow time = {dailyTime[5]} desc = {dailyDesc[5]} max = {dailyMax[5]} min = {dailyMin[5]} icon = {dailyIcons[5]}/>
+        <DailyRow time = {dailyTime[6]} desc = {dailyDesc[6]} max = {dailyMax[6]} min = {dailyMin[6]} icon = {dailyIcons[6]}/>
+        <DailyRow time = {dailyTime[7]} desc = {dailyDesc[7]} max = {dailyMax[7]} min = {dailyMin[7]} icon = {dailyIcons[7]}/>
     </div>
   </div>
-
-  
   );
-
-  // 
 };
 
 export default App;
