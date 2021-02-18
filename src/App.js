@@ -9,11 +9,14 @@ const App = () => {
   // positive coords are N/E, negative are S/W
   const long = '51.5074';
   const lat = '-0.1278';
-  const locationSearch = "london, uk";
-  // stopped obfuscating API keys, was causing collaboration issues, hopefully can be added back in later
-  const weatherReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=metric&appid=a7ff38ee1c49b77064c72f94875dcc9e`;
-  const locationReq = `https://www.mapquestapi.com/geocoding/v1/address?key=EBmXLZiX0GnVaGRDAIsX4GzsZAnWfaNU&inFormat=kvp&outFormat=json&location=${locationSearch}%2C+CO&thumbMaps=false&maxResults=1`;
-
+  let locationSearch = "";
+  if (localStorage.getItem("Location")){
+    locationSearch = localStorage.getItem("Location");
+  }
+  else {
+    locationSearch = "london, uk";
+  }
+  
   const [currentInfo, setCurrent] = useState([]);
   const [currentDesc, setDesc] = useState([]);
   const [dailyTime, setDailyTime] = useState([]);
@@ -26,8 +29,8 @@ const App = () => {
 
   // triggered on page load, will be set up to refresh when new location is added
   useEffect(() => {
-    //fetchLocation();
     makeRequests(searchValue);
+    localStorage.setItem("Location", searchValue);
   }, [searchValue]);
 
   const handleSubmit = (event) => {
@@ -62,14 +65,12 @@ const App = () => {
 
   // fetches and logs the data, updates the current info
   const makeRequests = async (locationString) => {
-    // make the location API call first, to find longitude and latitude of the given location string
-    const locationReq = `https://www.mapquestapi.com/geocoding/v1/address?key=EBmXLZiX0GnVaGRDAIsX4GzsZAnWfaNU&inFormat=kvp&outFormat=json&location=${locationString}%2C+CO&thumbMaps=false&maxResults=1`;
-    const locResponse = await fetch(locationReq);
+    const locReq = `https://maps.googleapis.com/maps/api/geocode/json?address=${locationString}&key=AIzaSyCMCT2J6HObmXkBZiD-gMAdmucOoTXEn_U`;
+    const locResponse = await fetch(locReq);
     const locData = await locResponse.json();
-    const lat = locData.results[0].locations[0].latLng.lat;
-    const lng = locData.results[0].locations[0].latLng.lng;
-    console.log(locData);
-    setLocationDisplay(`${locData.results[0].locations[0].adminArea5}, ${locData.results[0].locations[0].adminArea1}`);
+    const lat = locData.results[0].geometry.location.lat;
+    const lng = locData.results[0].geometry.location.lng;
+    setLocationDisplay(locData.results[0].formatted_address);
     
     // use longitude and latitude to build a 2nd API call to the weather API
     const weatherReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=metric&appid=a7ff38ee1c49b77064c72f94875dcc9e`;
