@@ -5,21 +5,22 @@
 }
 
 body {
-  font-family: sans-serif;
-  color: white;
-}
+  font-family: "Helvetica Neue";
+  color: white;}
+
 
 .container {
-  background-color: rgb(15, 92, 47);
-  border-radius: 50px;
-  width: 50vw;
+  background-color: rgb(93,17,104,1);
+  border-radius: 0px;
+  width: 580px;   /* changed the width from 50vw */
   margin: 50px auto;
-  padding: 50px;
+  padding-top: 40px;
   text-align: center;
 }
 
 h1 {
-  font-size: 70px;
+  font-size: 98px;
+  font-weight: 300;
 }
 
 .desc-today {
@@ -57,10 +58,16 @@ a:hover {
   color: white;
 }
 
+.todaysforecast{
+  background-color: rgb(255, 255, 255);
+  color: black;
+  display: flex;
+  flex-direction: column;
+}
+
 .forecast {
   background-color: azure;
   color: black;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -99,6 +106,11 @@ a:hover {
   opacity: 50%;
   font-size: 75%;
   background-color: none;
+}
+
+.image{
+  width: 580px;
+  height: 300px;
 }
 
 /* Tablet Styles */
