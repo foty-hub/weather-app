@@ -2,7 +2,7 @@ import React from 'react';
 
 const CurrentDisplay = (props) => (
     <div className="current-display">
-        <h1 className="temp-today">{!isNaN(props.temp) ? props.temp : "loading..."}&#8451;</h1>
+        <h1 className="temp-today">{!isNaN(props.temp) ? props.temp : "loading..."}&#176;C</h1>
         <p className="desc-today">{props.desc}</p>
         <form onSubmit = {props.onSubmit}>
             <input type="text" autoComplete="off" className="search-bar" placeholder="eg... London, UK" onChange = {props.onChange}/>
