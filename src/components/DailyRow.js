@@ -12,9 +12,13 @@ let iconPairsDaily = {
   "50": "fa-smog",                     // mist
 };
 
+function createHTML(time){
+  return {__html: '<p>' + time + '</p>'};
+}
+
 const DailyRow = (props) => (
   <div className="forecast-row">
-    <p className="date">{props.time}  </p>
+    <div className="date" dangerouslySetInnerHTML = {createHTML(props.time)}></div>
     <i className={"fas " + iconPairsDaily[props.icon]}></i>
     <p className="desc">{props.desc}</p>
     <p className="morn-temp">{props.max}&#176;C</p>

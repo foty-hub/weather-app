@@ -46,12 +46,12 @@ const App = () => {
 
   // Returns the correct suffix for ordinal numbers (7th, 1st, 3rd)
   const nth = (d) => {
-    if (d > 3 && d < 21){return d+'th'};
+    if (d > 3 && d < 21){return d+'<sup>th</sup>'};
     switch (d % 10){
-      case 1: return d+'st';
-      case 2: return d+'nd';
-      case 3: return d+'rd';
-      default: return d+'th';
+      case 1: return d+'<sup>st</sup>';
+      case 2: return d+'<sup>nd</sup>';
+      case 3: return d+'<sup>rd</sup>';
+      default: return d+'<sup>th</sup>';
     };
   };
 
