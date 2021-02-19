@@ -6,6 +6,7 @@
 
 body {
   font-family: "Poppins", sans-serif;
+  font-size: 16px;
   color: white;
   background-color: #5d1168;
 }
@@ -40,15 +41,24 @@ form {
   margin-bottom: 20px;
 }
 
-input[type="text"] 
-{
+input[type="text"] {
   padding: 16px;
   border-radius: 0px;
-  border: 2px solid #a7a7a7;
-  transition: 0.5s;
+  border: 3px solid #a7a7a7;
+  text-align: center;
+  font-size: 16px;
+  width: 200px;
+  -webkit-transition: width 0.35s ease-in-out;
+  transition: width 0.35s ease-in-out;
 }
 
 input[type="text"]:focus {
+  border-radius: 0px;
+  border: 3px solid #5d1168;
+  width: 250px;
+}
+
+input[type="text"]:hover {
   border-radius: 0px;
   border: 3px solid #5d1168;
 }
@@ -60,6 +70,7 @@ input[type="text"]:focus {
   width: fit-content;
   margin: 0 auto;
   background-color: none;
+  margin-bottom: 15px;
 }
 
 .city {
@@ -107,8 +118,12 @@ a:hover {
   margin: 0px;
 }
 
+.forecast-row:first-of-type {
+  border-top: 1px solid rgb(128, 130, 209);
+}
+
 .forecast-row:hover {
-  color: white;
+  color: black;
   background: #dfcfe1;
 }
 
