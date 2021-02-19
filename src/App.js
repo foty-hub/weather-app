@@ -130,7 +130,7 @@ const App = () => {
 
   <div className="container">
     <div className="londonimage" > 
-    <img src={image} alt="london-image"/>
+      <img src={image} alt="london-image"/>
     </div>
     <div className="todaysforecast">
       <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} location={locationDisplay} 

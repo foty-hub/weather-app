@@ -5,8 +5,9 @@
 }
 
 body {
-  font-family: "Helvetica Neue";
+  font-family: "Poppins", sans-serif;
   color: white;
+  background-color: #5d1168;
 }
 
 .container {
@@ -39,10 +40,11 @@ form {
   margin-bottom: 20px;
 }
 
-input[type="text"] {
-  padding: 5px;
+input[type="text"] 
+{
+  padding: 16px;
   border-radius: 0px;
-  border: 3px solid #a7a7a7;
+  border: 2px solid #a7a7a7;
   transition: 0.5s;
 }
 
@@ -98,11 +100,16 @@ a:hover {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 16px;
   text-align: left;
   border-bottom: 1px solid rgb(128, 130, 209);
   background-color: none;
   margin: 0px;
+}
+
+.forecast-row:hover {
+  color: white;
+  background: #dfcfe1;
 }
 
 .date,
@@ -142,9 +149,9 @@ a:hover {
 }
 */
 
-.image {
-  width: 580px;
-  height: 300px;
+.londonimage img {
+  width: 100%;
+  display: block;
 }
 
 /* Tablet Styles */
@@ -154,7 +161,7 @@ a:hover {
   }
   .container {
     margin: 20px auto;
-    width: 80%;
+    width: 500px;
   }
   .date {
     width: 30%;
@@ -172,7 +179,7 @@ a:hover {
   }
   .container {
     margin: 10px auto;
-    width: 95%;
+    width: 450px;
     height: 95%;
     padding: 20px;
   }
