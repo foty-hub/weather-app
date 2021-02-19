@@ -15,6 +15,7 @@ let iconPairsCurrent = {
 const CurrentDisplay = (props) => (
     <div className="current-display">
         <h1 className="temp-today">{!isNaN(props.temp) ? props.temp : "loading..."}&#176;C</h1>
+        <i className={"fas " + iconPairsCurrent[props.icon]}></i>
         <p className="desc-today">{props.desc}</p>
         <form onSubmit = {props.onSubmit}>
             <input type="text" autoComplete="off" className="search-bar" placeholder="eg... London, UK" onChange = {props.onChange}/>
