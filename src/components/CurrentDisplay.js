@@ -1,8 +1,21 @@
 import React from 'react';
 
+let iconPairsCurrent = {
+    "01": "fa-sun",                      // clear sky
+    "02": "fa-cloud-sun",                // few clouds
+    "03": "fa-cloud",                    // scattered clouds
+    "04": "fa-cloud",                    // broken clouds
+    "09": "fa-cloud-sun-rain",           // shower rain
+    "10": "fa-cloud-showers-heavy",      // rain
+    "11": "fa-bolt",                     // thunderstorm
+    "13": "fa-snowflake",                // snow
+    "50": "fa-smog",                     // mist
+  };
+
 const CurrentDisplay = (props) => (
     <div className="current-display">
-        <h1 className="temp-today">{!isNaN(props.temp) ? props.temp : "loading..."}&#8451;</h1>
+        <h1 className="temp-today">{!isNaN(props.temp) ? props.temp : "loading..."}&#8451; {console.log(props.icon)}</h1>
+        <i className={"fas " + iconPairsCurrent[props.icon]}></i>
         <p className="desc-today">{props.desc}</p>
         <form onSubmit = {props.onSubmit}>
             <input type="text" autoComplete="off" className="search-bar" placeholder="eg... London, UK" onChange = {props.onChange}/>

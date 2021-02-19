@@ -81,8 +81,9 @@ const App = () => {
     const data = await weatherResponse.json();
     setCurrent(data.current);
     setDesc(data.current.weather[0].description);
-    setCurrentIcon(data.current.weather[0].icon);
-    setDailyIcons( data.daily.map(x => x.weather[0].icon) );
+    setCurrentIcon(data.current.weather[0].icon.substring(0, 2));
+    console.log("data received: " + data.current.weather[0].icon)
+    setDailyIcons( data.daily.map(x => x.weather[0].icon.substring(0, 2)) );
     setDailyTime( data.daily.map(x => dateString(x.dt)) );        // messy fix to prevent React throwing object assignment errors
     setDailyDesc( data.daily.map(x => x.weather[0].description) );
     setDailyMax( data.daily.map(x => Math.round(x.temp.max)) );
@@ -131,8 +132,9 @@ const App = () => {
     <div className="londonimage" > 
     <img src={image} alt="london-image"/>
     </div>
-    <div className="todaysforecast">          
-      <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} location={locationDisplay} onSubmit={handleSubmit} onChange={handleChange}/> 
+    <div className="todaysforecast">
+      <CurrentDisplay temp = {Math.round(currentInfo.temp)} desc = {currentDesc} location={locationDisplay} 
+                                onSubmit={handleSubmit} onChange={handleChange} icon={currentIcon}/> 
       <p className="subtitle">next 7 days</p>
     </div>
     <div className="forecast">
