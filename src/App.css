@@ -114,6 +114,7 @@ a:hover {
   border: 1px solid none;
 }
 
+/*
 .forecast-row i {
   width: 30px;
   padding: 0 5px;
@@ -121,6 +122,7 @@ a:hover {
   color: #5d1168;
   border: 1px solid none;
 }
+*/
 
 .date {
   width: 30%;
@@ -133,11 +135,13 @@ a:hover {
   text-transform: capitalize;
 }
 
+/*
 .even-temp {
   opacity: 50%;
   font-size: 75%;
   background-color: none;
 }
+*/
 
 .image {
   width: 580px;
