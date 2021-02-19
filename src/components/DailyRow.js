@@ -14,7 +14,7 @@ let iconPairsDaily = {
 
 const DailyRow = (props) => (
   <div className="forecast-row">
-    <p className="date">{props.time}}</p>
+    <p className="date">{props.time}  </p>
     <i className={"fas " + iconPairsDaily[props.icon]}></i>
     <p className="desc">{props.desc}</p>
     <p className="morn-temp">{props.max}&#176;C</p>
