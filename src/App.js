@@ -1,5 +1,4 @@
-import logo from './logo.svg';
-import React, {Component, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import './App.css';
 import DailyRow from "./components/DailyRow";
 import CurrentDisplay from './components/CurrentDisplay';
@@ -7,9 +6,6 @@ import image from './london-gradient.png';
 
 const App = () => {
 
-  // positive coords are N/E, negative are S/W
-  const long = '51.5074';
-  const lat = '-0.1278';
   let locationSearch = "";
 
   if (localStorage.getItem("Location")){
@@ -18,7 +14,7 @@ const App = () => {
    else {
      locationSearch = "london, uk"; // default fallback value if nothing is locally stored
    }
-  
+
   const [currentInfo, setCurrent] = useState([]);
   const [currentDesc, setDesc] = useState([]);
   const [dailyTime, setDailyTime] = useState([]);
@@ -30,6 +26,7 @@ const App = () => {
   const [locationDisplay, setLocationDisplay] = useState();
   const [currentIcon, setCurrentIcon] = useState();
   const [dailyIcons, setDailyIcons] = useState([]);
+  const [placeID, setPlaceID] = useState("");
 
   // Triggered on page load, retriggers when the search is submitted
   useEffect(() => {
@@ -70,25 +67,28 @@ const App = () => {
     return `${dayArray[dayIndex]} ${dateVal} ${monthArray[month]}`;
   }
 
-  const logoSelect = () => {
-
-  };
-
   // Fetches and handles openweathermap API call, updating hooks
   const fetchWeather = async (lat, lng) => {
     const weatherReq = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&units=metric&appid=a7ff38ee1c49b77064c72f94875dcc9e`;
     const weatherResponse = await fetch(weatherReq);
     const data = await weatherResponse.json();
+
     setCurrent(data.current);
     setDesc(data.current.weather[0].description);
     setCurrentIcon(data.current.weather[0].icon.substring(0, 2));
-    console.log("data received: " + data.current.weather[0].icon)
-    setDailyIcons( data.daily.map(x => x.weather[0].icon.substring(0, 2)) );
-    setDailyTime( data.daily.map(x => dateString(x.dt)) );        // messy fix to prevent React throwing object assignment errors
+    setDailyIcons( data.daily.map(x => x.weather[0].icon.substring(0, 2)) );  // take substring to eliminate the day/night alt icons eg. 05n, 05d
+    setDailyTime( data.daily.map(x => dateString(x.dt)) );                    // messy fix to prevent React throwing object assignment errors
     setDailyDesc( data.daily.map(x => x.weather[0].description) );
     setDailyMax( data.daily.map(x => Math.round(x.temp.max)) );
     setDailyMin( data.daily.map(x => Math.round(x.temp.min)) );
     console.log(data);
+  };
+
+  const getPicture = async (placeID) => {
+    const detailsReq = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeID}&key=AIzaSyCMCT2J6HObmXkBZiD-gMAdmucOoTXEn_U`;
+    const detailsResponse = await fetch(detailsReq, {mode: 'no-cors'}).then(data => console.log(data));
+    //const detailsData = await detailsResponse.json();
+    //console.log(detailsData);
   };
 
   // Fetches and handles the GMaps API call, and calls fetchWeather upon successful return
@@ -96,6 +96,8 @@ const App = () => {
     const locReq = `https://maps.googleapis.com/maps/api/geocode/json?address=${locationString}&key=AIzaSyCMCT2J6HObmXkBZiD-gMAdmucOoTXEn_U`;
     const locResponse = await fetch(locReq);
     const locData = await locResponse.json();
+    console.log(locData);
+    
     let lat = "";
     let lng = "";
 
@@ -108,6 +110,7 @@ const App = () => {
         setLocationDisplay(locData.results[0].formatted_address);
         localStorage.setItem("Location", searchValue);
         fetchWeather(lat, lng);
+        getPicture(locData.results[0].place_id);
         break;
       case "ZERO_RESULTS":
         alert("No matching address found");
@@ -127,7 +130,6 @@ const App = () => {
   };
 
   return(
-
   <div className="container">
     <div className="londonimage" > 
       <img src={image} alt="london-image"/>

@@ -42,6 +42,7 @@ form {
 }
 
 input[type="text"] {
+<<<<<<< Updated upstream
   padding: 16px;
   border-radius: 0px;
   border: 3px solid #a7a7a7;
@@ -50,6 +51,12 @@ input[type="text"] {
   width: 200px;
   -webkit-transition: width 0.35s ease-in-out;
   transition: width 0.35s ease-in-out;
+=======
+  padding: 5px;
+  border-radius: 0px;
+  border: 3px solid #a7a7a7;
+  transition: 0.5s;
+>>>>>>> Stashed changes
 }
 
 input[type="text"]:focus {
@@ -111,13 +118,14 @@ a:hover {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
+  padding: 10px;
   text-align: left;
   border-bottom: 1px solid rgb(223, 207, 225);
   background-color: none;
   margin: 0px;
 }
 
+<<<<<<< Updated upstream
 .forecast-row:first-of-type {
   border-top: 1px solid rgb(128, 130, 209);
 }
@@ -127,6 +135,8 @@ a:hover {
   background: #dfcfe1;
 }
 
+=======
+>>>>>>> Stashed changes
 .date,
 .desc,
 .morn-temp,
@@ -164,9 +174,9 @@ a:hover {
 }
 */
 
-.londonimage img {
-  width: 100%;
-  display: block;
+.image {
+  width: 580px;
+  height: 300px;
 }
 
 /* Tablet Styles */
@@ -176,7 +186,7 @@ a:hover {
   }
   .container {
     margin: 20px auto;
-    width: 500px;
+    width: 80%;
   }
   .date {
     width: 30%;
@@ -194,7 +204,7 @@ a:hover {
   }
   .container {
     margin: 10px auto;
-    width: 450px;
+    width: 95%;
     height: 95%;
     padding: 20px;
   }
