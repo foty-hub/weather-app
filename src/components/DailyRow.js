@@ -17,8 +17,8 @@ const DailyRow = (props) => (
     <p className="date">{props.time}</p>
     <i className={"fas " + iconPairs[props.icon]}></i>
     <p className="desc">{props.desc}</p>
-    <p className="morn-temp">{props.max}&#8451;</p>
-    <p className="even-temp">{props.min}&#8451;</p>
+    <p className="morn-temp">{props.max}&#176;C</p>
+    <p className="even-temp">{props.min}&#176;C</p>
   </div>
 );
 

@@ -5,8 +5,9 @@
 }
 
 body {
-  font-family: "Helvetica Neue";
+  font-family: "Poppins", sans-serif;
   color: white;
+  background-color: #5d1168;
 }
 
 .container {
@@ -106,6 +107,11 @@ a:hover {
   margin: 0px;
 }
 
+.forecast-row:hover {
+  color: white;
+  background: #dfcfe1;
+}
+
 .date,
 .desc,
 .morn-temp,
@@ -143,9 +149,9 @@ a:hover {
 }
 */
 
-.image {
-  width: 580px;
-  height: 300px;
+.londonimage img {
+  width: 100%;
+  display: block;
 }
 
 /* Tablet Styles */
@@ -155,7 +161,7 @@ a:hover {
   }
   .container {
     margin: 20px auto;
-    width: 80%;
+    width: 500px;
   }
   .date {
     width: 30%;
@@ -173,7 +179,7 @@ a:hover {
   }
   .container {
     margin: 10px auto;
-    width: 95%;
+    width: 450px;
     height: 95%;
     padding: 20px;
   }
