@@ -33,7 +33,7 @@ h1 {
 .subtitle {
   margin: 30px 0 10px 0;
   text-align: left;
-  padding-left: 20px;
+  padding-left: 16px;
   text-transform: capitalize;
 }
 
@@ -42,7 +42,6 @@ form {
 }
 
 input[type="text"] {
-<<<<<<< Updated upstream
   padding: 16px;
   border-radius: 0px;
   border: 3px solid #a7a7a7;
@@ -51,12 +50,6 @@ input[type="text"] {
   width: 200px;
   -webkit-transition: width 0.35s ease-in-out;
   transition: width 0.35s ease-in-out;
-=======
-  padding: 5px;
-  border-radius: 0px;
-  border: 3px solid #a7a7a7;
-  transition: 0.5s;
->>>>>>> Stashed changes
 }
 
 input[type="text"]:focus {
@@ -125,7 +118,6 @@ a:hover {
   margin: 0px;
 }
 
-<<<<<<< Updated upstream
 .forecast-row:first-of-type {
   border-top: 1px solid rgb(128, 130, 209);
 }
@@ -135,8 +127,6 @@ a:hover {
   background: #dfcfe1;
 }
 
-=======
->>>>>>> Stashed changes
 .date,
 .desc,
 .morn-temp,
